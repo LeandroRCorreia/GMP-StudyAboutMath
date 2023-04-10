@@ -1,23 +1,6 @@
 using TMPro;
 using UnityEngine;
 
-struct EquationLine
-{
-    public EquationLine(Vector3 pointA, Vector3 pointB)
-    {
-        m = (pointB.y - pointA.y) / (pointB.x - pointA.x);
-        c = m * (pointA.x + pointA.y);
-
-    }
-
-    public float m;
-    public float c;
-
-    public float RadianAngle => Mathf.Atan(m);
-    public float DegressAngle => Mathf.Atan(m) * Mathf.Rad2Deg;
-
-}
-
 [ExecuteAlways]
 public class LineEquation : MonoBehaviour
 {
@@ -41,9 +24,8 @@ public class LineEquation : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(positionA, positionB);
-        Gizmos.DrawLine(positionA, positionB.x * Vector3.right);
+        Gizmos.DrawRay(positionA, Vector3.right * (positionB.x - positionA.x));
         equationLine = new EquationLine(positionA, positionB);
-
     }
 
 }
