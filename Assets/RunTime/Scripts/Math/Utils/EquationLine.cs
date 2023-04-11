@@ -5,7 +5,7 @@ public struct EquationLine
     public EquationLine(Vector3 pointA, Vector3 pointB)
     {
         m = (pointB.y - pointA.y) / (pointB.x - pointA.x);
-        c = m * (pointA.x + pointA.y);
+        c = -m * (pointA.x + pointA.y);
 
     }
 
