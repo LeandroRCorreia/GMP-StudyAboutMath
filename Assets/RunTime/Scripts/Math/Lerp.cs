@@ -1,4 +1,17 @@
+using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
+
+
+public static class MathUltils
+{
+
+
+
+
+
+
+}
 
 public class Lerp : MonoBehaviour
 {
@@ -11,8 +24,11 @@ public class Lerp : MonoBehaviour
     private Vector3 positionA => point_A.position;
     private Vector3 positionB => point_B.position;
 
+
+
     private void OnDrawGizmos()
     {
+        
         DrawAndCalculateLerpEquation();
     }
 
@@ -21,7 +37,6 @@ public class Lerp : MonoBehaviour
         Vector3 vectorAB;
         Vector3 tVectorBetweeenAB;
         CalculateLerpEquation(out vectorAB, out tVectorBetweeenAB);
-
         DrawLerpEquationDemonstration(vectorAB, tVectorBetweeenAB);
     }
 
