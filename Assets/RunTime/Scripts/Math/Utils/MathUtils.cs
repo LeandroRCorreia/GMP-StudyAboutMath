@@ -20,7 +20,6 @@ public static class MathUtils
         return true;
     }
 
-
     public static float Distance(float adjacent,float opposite)
     {
         return Mathf.Sqrt(opposite * opposite + adjacent * adjacent);
@@ -61,4 +60,11 @@ public static class MathUtils
         return (point.x - a.x) / (b.x - a.x);
     }
 
-}
+    public static bool IsPointIfiniteLine(Vector3 start, Vector3 end, Vector3 point)
+    {
+        float t1 = InverseLerp(start, end, point);
+
+        return t1 >= 0 && t1 <= 1;
+    }
+
+}  
