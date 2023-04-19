@@ -7,42 +7,63 @@ public class VectorBases : MonoBehaviour
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI infoText;
 
-    [Header("Basis")]
-    [SerializeField] private Vector2 i;
-    [SerializeField] private Vector2 j;
+    [SerializeField] private Vector2 v;
 
-    [SerializeField] private float x;
+    [SerializeField] private Matrix2X2[] matricesComposition;
 
-    [SerializeField] private float y;
-
-    private void OnDrawGizmos() 
+    private void OnDrawGizmos()
     {
-        DrawAxis();
-
-        Vector2 w = i * x + j * y;
-
-        Gizmos.color = Color.yellow;
-        GizmosUtils.DrawVectorAtOrigin(w);
-        bool Ld = AreLinearDependent(i, j);
-        infoText.text = $"v = ({w.x}, {w.y})\ni = ({i.x}, {i.y})\nj = ({j.x}, {j.y})\nLD = {Ld}";
+        UpdateMatrixBasisVisualizer();
     }
 
-    private void DrawAxis()
+    private void UpdateMatrixBasisVisualizer()
     {
-        float axisLenght = 4f;
+        Matrix2X2 basisTransformed;
+        Vector3 vTransformed;
+        GetMatrixAndVectorTransformed(out basisTransformed, out vTransformed);
+        UpdateDrawsAndTextInfo(basisTransformed, vTransformed);
+    }
 
+    private void GetMatrixAndVectorTransformed(out Matrix2X2 basisTransformed, out Vector3 vTransformed)
+    {
+        Matrix2X2 initialMatrix = Matrix2X2.identity;
+        basisTransformed = UpdateCompositionOfMatricesTransformation(in initialMatrix, in matricesComposition);
+        vTransformed = basisTransformed * v;
+    }
+
+    private Matrix2X2 UpdateCompositionOfMatricesTransformation(in Matrix2X2 initialBasis, in Matrix2X2[] matricesT)
+    {
+        Matrix2X2 result = initialBasis;
+
+        foreach(Matrix2X2 matrix in matricesT)
+        {
+            result = matrix * result;
+        }
+
+        return result;
+    }
+
+    private void UpdateDrawsAndTextInfo(Matrix2X2 basisTransformed, Vector3 vTransformed)
+    {
+        Gizmos.color = Color.yellow;
+        GizmosUtils.DrawVectorAtOrigin(vTransformed);
+        DrawBasis(in basisTransformed);
+        UpdateTextInfo(in basisTransformed, in vTransformed);
+    }
+
+    private void DrawBasis(in Matrix2X2 basis2x2)
+    {
         Gizmos.color = Color.red;
-        GizmosUtils.DrawVectorAtOrigin(Vector3.right * axisLenght);
+        GizmosUtils.DrawVectorAtOrigin(basis2x2.GetColumn(0));
 
         Gizmos.color = Color.green;
-        GizmosUtils.DrawVectorAtOrigin(Vector3.up * axisLenght);
-
+        GizmosUtils.DrawVectorAtOrigin(basis2x2.GetColumn(1));
     }
 
-    private bool AreLinearDependent(Vector2 a, Vector2 b)
+    private void UpdateTextInfo(in Matrix2X2 transformedBasis, in Vector3 vTransformed)
     {
-        float determinant = a.x * b.y - a.y * b.x;
-        return Mathf.Approximately(determinant, 0);
+        string vectorBasesConcatened = $"v = ({vTransformed.x}, {vTransformed.y})\n";
+        infoText.text = vectorBasesConcatened + transformedBasis;
     }
 
 }
