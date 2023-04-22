@@ -67,4 +67,9 @@ public static class MathUtils
         return t1 >= 0 && t1 <= 1;
     }
 
+    public static float Dot(Vector3 v, Vector3 w)
+    {
+        return v.x * w.x + v.y * w.y;
+    }
+
 }  
