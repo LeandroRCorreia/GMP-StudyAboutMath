@@ -26,7 +26,6 @@ public class FieldOfViewTopDown : MonoBehaviour
         Gizmos.DrawRay(transform.position, leftDir.normalized * radius);
         Gizmos.DrawRay(transform.position, rightDir.normalized * radius);
 
-        // Debug.Log(transform.forward);
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, transform.forward);
     }

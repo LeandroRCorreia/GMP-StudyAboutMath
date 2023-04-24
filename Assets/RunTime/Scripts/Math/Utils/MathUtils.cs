@@ -72,4 +72,9 @@ public static class MathUtils
         return v.x * w.x + v.y * w.y;
     }
 
+    public static Vector3 Cross(Vector3 v, Vector3 w)
+    {
+        return new Vector3(v.y * w.z - v.z * w.y, v.z * w.x - v.x * w.z, v.x * w.y - v.y * w.x);
+    }
+
 }  
