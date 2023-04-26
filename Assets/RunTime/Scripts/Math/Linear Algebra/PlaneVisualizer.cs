@@ -39,7 +39,7 @@ public class PlaneVisualizer : MonoBehaviour
         var size = Mathf.Max((p2 - p1).magnitude, (p3 - p1).magnitude);
         var distanceOriginVec = plane.Distance * plane.normal;
         
-        GizmosUtils.DrawPlane(plane.normal, plane.point, Vector3.one * size * 2);
+        GizmosUtils.DrawPlane(plane.normal, plane.point, Vector2.one * size * 2);
         GizmosUtils.DrawVectorAtOrigin(distanceOriginVec, 4);
     }
 
@@ -104,32 +104,29 @@ public class PlaneVisualizer : MonoBehaviour
 
     private void UpdateProjectPoint(in MyPlane plane)
     {
-        var pqpl = plane.ProjectPoint(p, out var pvn);
+        var projected = plane.ProjectPoint(p);
         var pointPosition = plane.point + p;
-        var projectedPoint = pointPosition + pvn * -1;
 
-
-        Gizmos.color = Color.blue;
-        GizmosUtils.DrawLine(Vector3.zero, projectedPoint);
+        GizmosUtils.DrawVectorAtOrigin(projected);
 
         Gizmos.color = Color.cyan;
-        Gizmos.DrawSphere(pointPosition, radiusSpheres);
+        Gizmos.DrawSphere(p, radiusSpheres);
         
-        GizmosUtils.DrawRay(pointPosition, pvn * -1);
+        GizmosUtils.DrawRay(p, projected - p);
     }
 
     private void UpdateProjectVector(in MyPlane plane)
     {
-        var projectV = plane.ProjectVector(p, out Vector3 pvn);
+        var projectVec = plane.ProjectVector(p);
 
         Gizmos.color = Color.cyan;
-        GizmosUtils.DrawLine(plane.point, p);
+        GizmosUtils.DrawVector(plane.point, p);
 
         Gizmos.color = Color.blue;
-        GizmosUtils.DrawLine(plane.point, projectV);
+        GizmosUtils.DrawVector(plane.point, projectVec);
 
         Gizmos.color = Color.cyan;
-        GizmosUtils.DrawRay(p, pvn * - 1);
+        GizmosUtils.DrawVector(p1 + p, projectVec - p);
     }
 
 }

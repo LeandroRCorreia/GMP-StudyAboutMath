@@ -11,31 +11,23 @@ public struct MyPlane
 
     public MyPlane(in Vector3 p1, in Vector3 p2, in Vector3 p3)
     {
-        this.point = p1;
-
-        this.normal = Vector3.Cross(p2 - p1, p3 - p1).normalized;
+        point = p1;
+        normal = Vector3.Cross(p2 - p1, p3 - p1).normalized;
     }
 
     public bool IsInfront(in Vector3 p)
     {
-        return Vector3.Dot(p - point, normal) > Distance;
+        return Vector3.Dot(p, normal) > Distance;
     }
 
-    public Vector3 ProjectPoint(in Vector3 point, out Vector3 projected)
+    public Vector3 ProjectPoint(in Vector3 p)
     {   
-        projected = ProjectInPlane(point - this.point);
-        return this.point + projected;
+        return this.point + ProjectVector(p - point);
     }
 
-    public Vector3 ProjectVector(in Vector3 v, out Vector3 pvn)
+    public Vector3 ProjectVector(in Vector3 vec)
     {
-        pvn = ProjectInPlane(v);
-        return v - pvn;
-    }
-
-    private Vector3 ProjectInPlane(in Vector3 v)
-    {
-        return  Vector3.Dot(normal, v) * normal;
+        return vec - Vector3.Dot(vec, normal) * normal;
     }
 
 }
